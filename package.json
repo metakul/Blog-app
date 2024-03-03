@@ -4,7 +4,7 @@
   "description": "",
   "main": "build/app.js",
   "scripts": {
-    "start": "tsc && nodemon  build/app.js",
+    "start": "nodemon  app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "clay k",
@@ -23,6 +23,7 @@
     "morgan": "^1.10.0"
   },
   "dependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "typescript": "^5.3.3"
   }
 }

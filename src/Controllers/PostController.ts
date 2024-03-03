@@ -2,12 +2,15 @@ import { Request, Response, NextFunction } from "express";
 import Post from "../Models/Post";
 import { Ipost } from "../Types/Ipost";
 import { PostValidation } from "../Validations/PostValidation";
-
+import { isJoiError } from "../Types/Ipost";
 import {
   PostIdValidation,
   UpdatePostValidation,
 } from "../Validations/PostValidation";
 import { IUpadatePost } from "../Types/IUpadatePost";
+
+
+
 
 /**
  * add new post
@@ -18,8 +21,9 @@ const addPost = async (postModelValidation: Ipost) => {
     const post = new Post({
       title: postModelValidation.title,
       description: postModelValidation.description,
-      vote: postModelValidation.vote,
-      user: postModelValidation.user,
+      image: postModelValidation.image,
+      author: postModelValidation.author,
+      categories: postModelValidation.categories,
     });
     const savedPost = await post.save();
 
@@ -41,6 +45,7 @@ export const CreatePost = async (
   next: NextFunction
 ) => {
   try {
+    console.log("asd", req.body)
     const postModelValidation: Ipost = await PostValidation.validateAsync(
       req.body
     );
@@ -66,7 +71,7 @@ export const CreatePost = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
@@ -103,7 +108,7 @@ export const getAllPost = async (
       );
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
@@ -152,7 +157,7 @@ export const getPost = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
@@ -199,7 +204,7 @@ export const detelePost = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
@@ -256,7 +261,7 @@ export const updatePost = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",

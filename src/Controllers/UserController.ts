@@ -7,6 +7,7 @@ import {
   UserValidation,
   UserIdValidation,
 } from "../Validations/UserValidation";
+import { isJoiError } from "../Types/Ipost";
 
 /**
  * Update user
@@ -99,7 +100,7 @@ export const createUser = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
@@ -159,7 +160,7 @@ export const updateUser = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
@@ -199,7 +200,7 @@ export const getUser = async (
       }
     }
   } catch (error) {
-    if (error.isJoi === true) {
+    if (isJoiError(error)) {
       return next(
         res.status(400).json({
           message: "Invalid details provided.",

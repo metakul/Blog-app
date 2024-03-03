@@ -10,13 +10,17 @@ const PostSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    vote: {
-      type: Number,
+    image: {
+      type: Object,
       required: true,
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+    author: {
+      type: String,
+      required: true,
+    },
+    categories: {
+      type: Array,
+      required: true,
     },
   },
 
