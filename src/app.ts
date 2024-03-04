@@ -1,56 +1,35 @@
 import express from "express";
-import { Request, Response, NextFunction } from "express";
-const app = express();
 import helmet from "helmet";
-import bodyParser from "body-parser";
 import connectorDb from "./Helper/Dbconnector";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import PostRoute from "./Routes/PostRoute";
 import UserRoute from "./Routes/UserRoute";
 import morgan from "morgan";
+import cors from "cors";
 
 dotenv.config();
 
-app.use(helmet());
-app.use(bodyParser.json());
-//morgan used for logging
-// app.use(morgan("dev"));
-app.use(morgan<Request, Response>("dev"));
+const app = express();
+const port = process.env.SERVER_PORT || 8000;
+const dbConnectionString: string = process.env.DB_CONNECION || "";
 
-const dbConnectionString: string = process.env.DB_CONNECION ?? "";
-const server_port = process.env.SERVER_PORT ?? "";
+const corsOptions = {
+  origin: "http://localhost:8000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions)); // Use the cors middleware with the specified options
 
 connectorDb(dbConnectionString);
 
-//user route
+// User route
 app.use("/user", UserRoute);
-//post route
+// Post route
 app.use("/post", PostRoute);
 
-//404 response
-app.use((error: any, res: Response, next: NextFunction) => {
-  try {
-    res.status(404).send("Resource not found");
-  } catch (error) {
-    next(error);
-  }
-});
 
-app.use((error: any, res: Response, next: NextFunction) => {
-  try {
-    const status = error.status || 500;
-    const message =
-      error.message ||
-      "There was an error while processing your request, please try again";
-    return res.status(status).send({
-      status,
-      message,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-const port = server_port || 5000;
 app.listen(port, () => {
   console.log(`Application started on ${port}...`);
 });

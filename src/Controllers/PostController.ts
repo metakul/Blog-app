@@ -95,7 +95,7 @@ export const getAllPost = async (
 ) => {
   try {
     const getPosts = await Post.find()
-      .select("_id title description vote createdAt updatedAt")
+      .select("_id title description image author categories createdAt updatedAt")
       .populate("user", "username name surname");
 
     if (getPosts) {

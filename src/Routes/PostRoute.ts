@@ -1,7 +1,9 @@
 import { Router } from "express";
-const router: Router = Router();
 import * as PostController from "../Controllers/PostController";
+import cors from "cors";
 
+const router: Router = Router();
+router.use(cors());
 //create post
 router.post("/", PostController.CreatePost);
 

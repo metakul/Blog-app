@@ -1,6 +1,10 @@
 import { Router } from "express";
-const router: Router = Router();
 import * as UserController from "../Controllers/UserController";
+
+import cors from "cors";
+
+const router: Router = Router();
+router.use(cors());
 
 //create user
 router.post("/", UserController.createUser);
