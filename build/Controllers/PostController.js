@@ -135,16 +135,16 @@ var getAllPost = function (req, res, next) { return __awaiter(void 0, void 0, vo
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, Post_1.default.find()
-                        .select("_id title description image author categories createdAt updatedAt")
-                        .populate("user", "username name surname")];
+                        .select("_id title description image author categories createdAt updatedAt")];
             case 1:
                 getPosts = _a.sent();
-                if (getPosts) {
+                console.log(getPosts.length);
+                if (getPosts.length > 0) {
                     res.status(200).json(getPosts);
                 }
                 else {
                     return [2 /*return*/, next(res.status(404).json({
-                            message: "Not found.",
+                            message: "Not Found",
                         }))];
                 }
                 return [3 /*break*/, 3];

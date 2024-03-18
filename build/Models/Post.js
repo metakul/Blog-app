@@ -34,7 +34,7 @@ var PostSchema = new mongoose_1.Schema({
         required: true,
     },
     image: {
-        type: Object,
+        type: String,
         required: true,
     },
     author: {

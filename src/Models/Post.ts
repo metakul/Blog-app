@@ -11,7 +11,7 @@ const PostSchema: Schema = new Schema(
       required: true,
     },
     image: {
-      type: Object,
+      type: String,
       required: true,
     },
     author: {

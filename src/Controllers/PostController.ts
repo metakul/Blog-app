@@ -96,14 +96,14 @@ export const getAllPost = async (
   try {
     const getPosts = await Post.find()
       .select("_id title description image author categories createdAt updatedAt")
-      .populate("user", "username name surname");
+      console.log(getPosts.length)
 
-    if (getPosts) {
-      res.status(200).json(getPosts);
+    if (getPosts.length>0) {
+      res.status(200).json( getPosts);
     } else {
       return next(
         res.status(404).json({
-          message: "Not found.",
+          message: "Not Found",
         })
       );
     }

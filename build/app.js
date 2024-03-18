@@ -40,7 +40,7 @@ dotenv.config();
 app.use((0, helmet_1.default)());
 app.use(body_parser_1.default.json());
 //morgan used for logging
-app.use((0, morgan_1.default)("dev"));
+// app.use(morgan("dev"));
 app.use((0, morgan_1.default)("dev"));
 var dbConnectionString = (_a = process.env.DB_CONNECION) !== null && _a !== void 0 ? _a : "";
 var server_port = (_b = process.env.SERVER_PORT) !== null && _b !== void 0 ? _b : "";
