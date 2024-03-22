@@ -27,6 +27,7 @@ app.use("/user", UserRoute);
 //post route
 app.use("/post", PostRoute);
 
+
 //404 response
 app.use((error: any, res: Response, next: NextFunction) => {
   try {

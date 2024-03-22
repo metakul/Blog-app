@@ -10,6 +10,8 @@ export const PostValidation = Joi.object({
 
 export const PostIdValidation = Joi.string().alphanum().required();
 
+export const cryptoIdValidation=Joi.string().required();
+
 export const UpdatePostValidation = Joi.object({
   postId: Joi.string().alphanum().required(),
   title: Joi.string().min(6).required(),

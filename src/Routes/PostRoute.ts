@@ -6,13 +6,15 @@ import authenticationMiddleware from "../middleware/authentication";
 const router: Router = Router();
 router.use(cors());
 //create post
-router.post("/",authenticationMiddleware, PostController.CreatePost);
+router.post("/", PostController.CreatePost);
 
 //get all post
 router.get("/", PostController.getAllPost);
 
 //get one post
 router.get("/:postId", PostController.getPost);
+
+router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 
 //update post
 router.patch("/",authenticationMiddleware, PostController.updatePost);

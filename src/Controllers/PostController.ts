@@ -1,16 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import Post from "../Models/Post";
 import { Ipost } from "../Types/Ipost";
-import { PostValidation } from "../Validations/PostValidation";
+import { PostValidation, cryptoIdValidation } from "../Validations/PostValidation";
 import { isJoiError } from "../Types/Ipost";
 import {
   PostIdValidation,
   UpdatePostValidation,
 } from "../Validations/PostValidation";
 import { IUpadatePost } from "../Types/IUpadatePost";
-
-
-
+import {fetchCryptoData} from "../Axios/axiosCall"
 
 /**
  * add new post
@@ -168,6 +166,7 @@ export const getPost = async (
   }
 };
 
+
 /**
  * delete post
  * @param req
@@ -265,6 +264,53 @@ export const updatePost = async (
       return next(
         res.status(400).json({
           message: "Invalid details provided.",
+        })
+      );
+    }
+    next(error);
+  }
+};
+
+/**
+ * get one Crypto
+ * @param req
+ * @param res
+ * @param next
+ */
+interface CryptoDataError {
+  timestamp: string;
+  error_code: number;
+  error_message: string;
+  elapsed: number;
+  credit_count: number;
+}
+
+export const getCryptoInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const postIdValidation = await cryptoIdValidation.validateAsync(
+      req.params.cryptoId
+    );
+    fetchCryptoData(req.params.cryptoId)
+  .then((data: any) => {
+     res.status(200).json(data);
+
+  })
+  .catch((error: CryptoDataError) => {
+    res.status(400).json({
+      error:error,
+      message: "Unable to Load Crypto Data.",
+    })
+  });
+   
+  } catch (error) {
+    if (isJoiError(error)) {
+      return next(
+        res.status(400).json({
+          message: "Unable to Load Crypto Data.",
         })
       );
     }

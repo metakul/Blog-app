@@ -39,11 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePost = exports.detelePost = exports.getPost = exports.getAllPost = exports.CreatePost = void 0;
+exports.getCryptoInfo = exports.updatePost = exports.detelePost = exports.getPost = exports.getAllPost = exports.CreatePost = void 0;
 var Post_1 = __importDefault(require("../Models/Post"));
 var PostValidation_1 = require("../Validations/PostValidation");
 var Ipost_1 = require("../Types/Ipost");
 var PostValidation_2 = require("../Validations/PostValidation");
+var axiosCall_1 = require("../Axios/axiosCall");
 /**
  * add new post
  * @param postModelValidation
@@ -309,3 +310,37 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.updatePost = updatePost;
+var getCryptoInfo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var postIdValidation, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, PostValidation_1.cryptoIdValidation.validateAsync(req.params.cryptoId)];
+            case 1:
+                postIdValidation = _a.sent();
+                (0, axiosCall_1.fetchCryptoData)(req.params.cryptoId)
+                    .then(function (data) {
+                    res.status(200).json(data);
+                })
+                    .catch(function (error) {
+                    res.status(400).json({
+                        error: error,
+                        message: "Unable to Load Crypto Data.",
+                    });
+                });
+                return [3 /*break*/, 3];
+            case 2:
+                error_7 = _a.sent();
+                if ((0, Ipost_1.isJoiError)(error_7)) {
+                    return [2 /*return*/, next(res.status(400).json({
+                            message: "Unable to Load Crypto Data.",
+                        }))];
+                }
+                next(error_7);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getCryptoInfo = getCryptoInfo;

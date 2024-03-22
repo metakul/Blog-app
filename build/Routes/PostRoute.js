@@ -33,11 +33,12 @@ var authentication_1 = __importDefault(require("../middleware/authentication"));
 var router = (0, express_1.Router)();
 router.use((0, cors_1.default)());
 //create post
-router.post("/", authentication_1.default, PostController.CreatePost);
+router.post("/", PostController.CreatePost);
 //get all post
 router.get("/", PostController.getAllPost);
 //get one post
 router.get("/:postId", PostController.getPost);
+router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
 router.patch("/", authentication_1.default, PostController.updatePost);
 //delete post
