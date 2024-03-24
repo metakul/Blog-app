@@ -1,23 +1,26 @@
-import Joi from "joi";
+import Joi from 'joi';
+import htmlInput from 'joi-html-input';
 
-export const PostValidation = Joi.object({
-  title: Joi.string().min(6).required(),
-  description: Joi.string().min(6).required(),
-  image:Joi.string().required(),
-  author:Joi.string().min(4).required(),
-  categories: Joi.array().required(),
-  cryptoSymbol:Joi.string().required(),
+// Extend Joi with htmlInput
+const extendedJoi = Joi.extend(htmlInput);
 
+export const PostValidation = extendedJoi.object({
+  title: extendedJoi.string().min(6).required(),
+  description: extendedJoi.htmlInput().allowedTags(),
+  image:extendedJoi.string().required(),
+  author:extendedJoi.string().min(4).required(),
+  categories: extendedJoi.array().required(),
+  cryptoSymbol:extendedJoi.string().required(),
 });
 
-export const PostIdValidation = Joi.string().alphanum().required();
+export const PostIdValidation = extendedJoi.string().alphanum().required();
 
-export const cryptoIdValidation=Joi.string().required();
+export const cryptoIdValidation=extendedJoi.string().required();
 
-export const UpdatePostValidation = Joi.object({
-  postId: Joi.string().alphanum().required(),
-  title: Joi.string().min(6).required(),
-  description: Joi.string().min(6).required(),
-  image:Joi.string().required(),
-  cryptoSymbol:Joi.string().required(),
+export const UpdatePostValidation = extendedJoi.object({
+  postId: extendedJoi.string().alphanum().required(),
+  title: extendedJoi.string().min(6).required(),
+  description: extendedJoi.htmlInput().allowedTags(),
+  image:extendedJoi.string().required(),
+  cryptoSymbol:extendedJoi.string().required(),
 });

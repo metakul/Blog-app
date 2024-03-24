@@ -5,20 +5,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdatePostValidation = exports.cryptoIdValidation = exports.PostIdValidation = exports.PostValidation = void 0;
 var joi_1 = __importDefault(require("joi"));
-exports.PostValidation = joi_1.default.object({
-    title: joi_1.default.string().min(6).required(),
-    description: joi_1.default.string().min(6).required(),
-    image: joi_1.default.string().required(),
-    author: joi_1.default.string().min(4).required(),
-    categories: joi_1.default.array().required(),
-    cryptoSymbol: joi_1.default.string().required(),
+var joi_html_input_1 = __importDefault(require("joi-html-input"));
+// Extend Joi with htmlInput
+var extendedJoi = joi_1.default.extend(joi_html_input_1.default);
+exports.PostValidation = extendedJoi.object({
+    title: extendedJoi.string().min(6).required(),
+    description: extendedJoi.htmlInput().allowedTags(),
+    image: extendedJoi.string().required(),
+    author: extendedJoi.string().min(4).required(),
+    categories: extendedJoi.array().required(),
+    cryptoSymbol: extendedJoi.string().required(),
 });
-exports.PostIdValidation = joi_1.default.string().alphanum().required();
-exports.cryptoIdValidation = joi_1.default.string().required();
-exports.UpdatePostValidation = joi_1.default.object({
-    postId: joi_1.default.string().alphanum().required(),
-    title: joi_1.default.string().min(6).required(),
-    description: joi_1.default.string().min(6).required(),
-    image: joi_1.default.string().required(),
-    cryptoSymbol: joi_1.default.string().required(),
+exports.PostIdValidation = extendedJoi.string().alphanum().required();
+exports.cryptoIdValidation = extendedJoi.string().required();
+exports.UpdatePostValidation = extendedJoi.object({
+    postId: extendedJoi.string().alphanum().required(),
+    title: extendedJoi.string().min(6).required(),
+    description: extendedJoi.htmlInput().allowedTags(),
+    image: extendedJoi.string().required(),
+    cryptoSymbol: extendedJoi.string().required(),
 });
