@@ -6,6 +6,8 @@ export const PostValidation = Joi.object({
   image:Joi.string().required(),
   author:Joi.string().min(4).required(),
   categories: Joi.array().required(),
+  cryptoSymbol:Joi.string().required(),
+
 });
 
 export const PostIdValidation = Joi.string().alphanum().required();
@@ -17,4 +19,5 @@ export const UpdatePostValidation = Joi.object({
   title: Joi.string().min(6).required(),
   description: Joi.string().min(6).required(),
   image:Joi.string().required(),
+  cryptoSymbol:Joi.string().required(),
 });

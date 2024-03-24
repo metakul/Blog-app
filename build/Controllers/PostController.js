@@ -61,6 +61,7 @@ var addPost = function (postModelValidation) { return __awaiter(void 0, void 0, 
                     image: postModelValidation.image,
                     author: postModelValidation.author,
                     categories: postModelValidation.categories,
+                    cryptoSymbol: postModelValidation.cryptoSymbol
                 });
                 return [4 /*yield*/, post.save()];
             case 1:
@@ -136,7 +137,7 @@ var getAllPost = function (req, res, next) { return __awaiter(void 0, void 0, vo
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, Post_1.default.find()
-                        .select("_id title description image author categories createdAt updatedAt")];
+                        .select("_id title description cryptoSymbol image author categories createdAt updatedAt")];
             case 1:
                 getPosts = _a.sent();
                 console.log(getPosts.length);
@@ -282,6 +283,7 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                     $set: {
                         title: resUpdatePostValidation.title,
                         description: resUpdatePostValidation.description,
+                        image: resUpdatePostValidation.image
                     },
                 })];
             case 3:

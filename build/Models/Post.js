@@ -41,6 +41,10 @@ var PostSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    cryptoSymbol: {
+        type: String,
+        required: true,
+    },
     categories: {
         type: Array,
         required: true,

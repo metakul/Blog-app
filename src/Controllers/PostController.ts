@@ -22,6 +22,7 @@ const addPost = async (postModelValidation: Ipost) => {
       image: postModelValidation.image,
       author: postModelValidation.author,
       categories: postModelValidation.categories,
+      cryptoSymbol:postModelValidation.cryptoSymbol
     });
     const savedPost = await post.save();
 
@@ -93,7 +94,7 @@ export const getAllPost = async (
 ) => {
   try {
     const getPosts = await Post.find()
-      .select("_id title description image author categories createdAt updatedAt")
+      .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
       console.log(getPosts.length)
 
     if (getPosts.length>0) {
@@ -245,6 +246,7 @@ export const updatePost = async (
           $set: {
             title: resUpdatePostValidation.title,
             description: resUpdatePostValidation.description,
+            image:resUpdatePostValidation.image
           },
         }
       );

@@ -11,6 +11,7 @@ exports.PostValidation = joi_1.default.object({
     image: joi_1.default.string().required(),
     author: joi_1.default.string().min(4).required(),
     categories: joi_1.default.array().required(),
+    cryptoSymbol: joi_1.default.string().required(),
 });
 exports.PostIdValidation = joi_1.default.string().alphanum().required();
 exports.cryptoIdValidation = joi_1.default.string().required();
@@ -19,4 +20,5 @@ exports.UpdatePostValidation = joi_1.default.object({
     title: joi_1.default.string().min(6).required(),
     description: joi_1.default.string().min(6).required(),
     image: joi_1.default.string().required(),
+    cryptoSymbol: joi_1.default.string().required(),
 });

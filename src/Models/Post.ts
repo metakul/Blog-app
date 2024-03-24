@@ -18,6 +18,10 @@ const PostSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    cryptoSymbol: {
+      type: String,
+      required: true,
+    },
     categories: {
       type: Array,
       required: true,
