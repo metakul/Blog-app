@@ -131,16 +131,20 @@ exports.CreatePost = CreatePost;
  * @param next
  */
 var getAllPost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var getPosts, error_3;
+    var pageSize, page, skip, getPosts, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
+                pageSize = parseInt(req.query.pagesize, 10) || 10;
+                page = parseInt(req.query.page, 10) || 1;
+                skip = (page - 1) * pageSize;
                 return [4 /*yield*/, Post_1.default.find()
-                        .select("_id title description cryptoSymbol image author categories createdAt updatedAt")];
+                        .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
+                        .skip(skip)
+                        .limit(pageSize)];
             case 1:
                 getPosts = _a.sent();
-                console.log(getPosts.length);
                 if (getPosts.length > 0) {
                     res.status(200).json(getPosts);
                 }

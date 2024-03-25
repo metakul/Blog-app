@@ -93,12 +93,23 @@ export const getAllPost = async (
   next: NextFunction
 ) => {
   try {
+    // Extract page size from query parameter or use a default value
+    const pageSize = parseInt(req.query.pagesize as string, 10) || 10;
+    
+    // Extract page number from query parameter or use a default value
+    const page = parseInt(req.query.page as string, 10) || 1;
+    
+    // Calculate skip value based on page size and page number
+    const skip = (page - 1) * pageSize;
+
+    // Fetch posts with pagination
     const getPosts = await Post.find()
       .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
-      console.log(getPosts.length)
+      .skip(skip)
+      .limit(pageSize);
 
-    if (getPosts.length>0) {
-      res.status(200).json( getPosts);
+    if (getPosts.length > 0) {
+      res.status(200).json(getPosts);
     } else {
       return next(
         res.status(404).json({
@@ -117,6 +128,7 @@ export const getAllPost = async (
     next(error);
   }
 };
+
 
 /**
  * get one post
