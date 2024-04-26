@@ -93,7 +93,7 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 postModelValidation = _a.sent();
                 if (!!postModelValidation) return [3 /*break*/, 2];
                 return [2 /*return*/, next(res.status(400).json({
-                        message: "Invalid details provided.",
+                        message: postModelValidation,
                     }))];
             case 2: return [4 /*yield*/, addPost(postModelValidation)];
             case 3:
@@ -105,7 +105,7 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 }
                 else {
                     return [2 /*return*/, next(res.status(400).json({
-                            message: "Invalid details provided.",
+                            message: "Error Adding Post",
                         }))];
                 }
                 _a.label = 4;
@@ -114,9 +114,10 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 error_2 = _a.sent();
                 if ((0, Ipost_1.isJoiError)(error_2)) {
                     return [2 /*return*/, next(res.status(400).json({
-                            message: "Invalid details provided.",
+                            message: error_2,
                         }))];
                 }
+                console.log(error_2);
                 next(error_2);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];

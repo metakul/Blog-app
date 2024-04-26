@@ -64,7 +64,7 @@ export const CreatePost = async (
       } else {
         return next(
           res.status(400).json({
-            message: "Invalid details provided.",
+            message: "Error Adding Post",
           })
         );
       }
@@ -73,10 +73,13 @@ export const CreatePost = async (
     if (isJoiError(error)) {
       return next(
         res.status(400).json({
-          message: "Invalid details provided.",
+          message:error,
         })
+        
       );
     }
+    console.log(error);
+
     next(error);
   }
 };
