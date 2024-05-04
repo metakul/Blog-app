@@ -17,7 +17,7 @@ router.get("/:postId", PostController.getPost);
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 
 //update post
-router.patch("/", PostController.updatePost);
+router.patch("/:postId", PostController.updatePost);
 
 //delete post
 router.delete("/:postId", PostController.detelePost);
