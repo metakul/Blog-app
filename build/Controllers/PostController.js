@@ -278,6 +278,7 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, PostValidation_2.UpdatePostValidation.validateAsync(req.body)];
             case 1:
                 resUpdatePostValidation = _a.sent();
+                console.log(resUpdatePostValidation);
                 if (!!PostValidation_2.UpdatePostValidation) return [3 /*break*/, 2];
                 return [2 /*return*/, next(res.status(400).json({
                         message: "Operation failed, invalid details provided.",
@@ -288,7 +289,10 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                     $set: {
                         title: resUpdatePostValidation.title,
                         description: resUpdatePostValidation.description,
-                        image: resUpdatePostValidation.image
+                        image: resUpdatePostValidation.image,
+                        author: resUpdatePostValidation.author,
+                        categories: resUpdatePostValidation.categories,
+                        cryptoSymbol: resUpdatePostValidation.cryptoSymbol
                     },
                 })];
             case 3:

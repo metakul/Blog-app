@@ -245,6 +245,7 @@ export const updatePost = async (
     const resUpdatePostValidation: IUpadatePost = await UpdatePostValidation.validateAsync(
       req.body
     );
+console.log(resUpdatePostValidation);
 
     if (!UpdatePostValidation) {
       return next(
@@ -261,7 +262,10 @@ export const updatePost = async (
           $set: {
             title: resUpdatePostValidation.title,
             description: resUpdatePostValidation.description,
-            image:resUpdatePostValidation.image
+            image:resUpdatePostValidation.image,
+            author:resUpdatePostValidation.author,
+            categories:resUpdatePostValidation.categories,
+            cryptoSymbol:resUpdatePostValidation.cryptoSymbol
           },
         }
       );

@@ -13,12 +13,14 @@ import path from "path"
 dotenv.config();
 
 app.use(helmet());
-app.use(bodyParser.json());
 //morgan used for logging
 // app.use(morgan("dev"));
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
- 
+
+app.use(express.json({ limit: '20mb' }));
+
+app.use(express.urlencoded({ limit: '20mb', extended: true }));
 
 app.use(morgan<Request, Response>("combined", { stream: accessLogStream }));
 

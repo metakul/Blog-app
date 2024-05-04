@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var app = (0, express_1.default)();
 var helmet_1 = __importDefault(require("helmet"));
-var body_parser_1 = __importDefault(require("body-parser"));
 var Dbconnector_1 = __importDefault(require("./Helper/Dbconnector"));
 var dotenv = __importStar(require("dotenv"));
 var PostRoute_1 = __importDefault(require("./Routes/PostRoute"));
@@ -40,11 +39,12 @@ var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 dotenv.config();
 app.use((0, helmet_1.default)());
-app.use(body_parser_1.default.json());
 //morgan used for logging
 // app.use(morgan("dev"));
 // create a write stream (in append mode)
 var accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'access.log'), { flags: 'a' });
+app.use(express_1.default.json({ limit: '20mb' }));
+app.use(express_1.default.urlencoded({ limit: '20mb', extended: true }));
 app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 var dbConnectionString = (_a = process.env.DB_CONNECION) !== null && _a !== void 0 ? _a : "";
 var server_port = (_b = process.env.SERVER_PORT) !== null && _b !== void 0 ? _b : "";
