@@ -8,14 +8,19 @@ import * as dotenv from "dotenv";
 import PostRoute from "./Routes/PostRoute";
 import UserRoute from "./Routes/UserRoute";
 import morgan from "morgan";
-
+import fs from "fs"
+import path from "path"
 dotenv.config();
 
 app.use(helmet());
 app.use(bodyParser.json());
 //morgan used for logging
 // app.use(morgan("dev"));
-app.use(morgan<Request, Response>("dev"));
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+ 
+
+app.use(morgan<Request, Response>("combined", { stream: accessLogStream }));
 
 const dbConnectionString: string = process.env.DB_CONNECION ?? "";
 const server_port = process.env.SERVER_PORT ?? "";

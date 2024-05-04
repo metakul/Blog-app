@@ -36,12 +36,16 @@ var dotenv = __importStar(require("dotenv"));
 var PostRoute_1 = __importDefault(require("./Routes/PostRoute"));
 var UserRoute_1 = __importDefault(require("./Routes/UserRoute"));
 var morgan_1 = __importDefault(require("morgan"));
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
 dotenv.config();
 app.use((0, helmet_1.default)());
 app.use(body_parser_1.default.json());
 //morgan used for logging
 // app.use(morgan("dev"));
-app.use((0, morgan_1.default)("dev"));
+// create a write stream (in append mode)
+var accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'access.log'), { flags: 'a' });
+app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 var dbConnectionString = (_a = process.env.DB_CONNECION) !== null && _a !== void 0 ? _a : "";
 var server_port = (_b = process.env.SERVER_PORT) !== null && _b !== void 0 ? _b : "";
 (0, Dbconnector_1.default)(dbConnectionString);

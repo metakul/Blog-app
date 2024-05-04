@@ -93,7 +93,7 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 postModelValidation = _a.sent();
                 if (!!postModelValidation) return [3 /*break*/, 2];
                 return [2 /*return*/, next(res.status(400).json({
-                        message: postModelValidation,
+                        message: "Invalid details provided.",
                     }))];
             case 2: return [4 /*yield*/, addPost(postModelValidation)];
             case 3:
@@ -189,7 +189,7 @@ var getPost = function (req, res, next) { return __awaiter(void 0, void 0, void 
                         message: "Operation failed, invalid details provided.",
                     }))];
             case 2: return [4 /*yield*/, Post_1.default.findById(postIdValidation)
-                    .select("_id title description vote createdAt updatedAt")
+                    .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
                     .populate("user", "username name surname")];
             case 3:
                 getPosts = _a.sent();

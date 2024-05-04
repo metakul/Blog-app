@@ -1,0 +1,3 @@
+::1 - - [28/Apr/2024:14:28:37 +0000] "GET /post HTTP/1.1" 200 47402 "-" "PostmanRuntime/7.37.3"
+::1 - - [28/Apr/2024:14:28:41 +0000] "GET /post HTTP/1.1" 200 47402 "-" "PostmanRuntime/7.37.3"
+::1 - - [28/Apr/2024:14:31:02 +0000] "POST /post HTTP/1.1" 400 523 "-" "PostmanRuntime/7.37.3"
