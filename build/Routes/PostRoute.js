@@ -29,17 +29,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var PostController = __importStar(require("../Controllers/PostController"));
 var cors_1 = __importDefault(require("cors"));
+var authentication_1 = __importDefault(require("../middleware/authentication"));
 var router = (0, express_1.Router)();
 router.use((0, cors_1.default)());
 //create post
-router.post("/", PostController.CreatePost);
+router.post("/", authentication_1.default, PostController.CreatePost);
 //get all post
 router.get("/", PostController.getAllPost);
 //get one post
 router.get("/:postId", PostController.getPost);
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
-router.patch("/:postId", PostController.updatePost);
+router.patch("/:postId", authentication_1.default, PostController.updatePost);
 //delete post
 router.delete("/:postId", PostController.detelePost);
 exports.default = router;

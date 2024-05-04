@@ -44,7 +44,6 @@ export const CreatePost = async (
   next: NextFunction
 ) => {
   try {
-    console.log("asd", req.body)
     const postModelValidation: Ipost = await PostValidation.validateAsync(
       req.body
     );
@@ -245,7 +244,6 @@ export const updatePost = async (
     const resUpdatePostValidation: IUpadatePost = await UpdatePostValidation.validateAsync(
       req.body
     );
-console.log(resUpdatePostValidation);
 
     if (!UpdatePostValidation) {
       return next(
