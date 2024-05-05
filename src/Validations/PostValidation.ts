@@ -23,6 +23,7 @@ export const UpdatePostValidation = extendedJoi.object({
   title: extendedJoi.string().min(6).required(),
   description: extendedJoi.htmlInput().allowedTags(),
   image:extendedJoi.string().required(),
+  author:extendedJoi.string().min(4).required(),
   categories: extendedJoi.array().required(),
   cryptoSymbol:extendedJoi.string().required(),
 });

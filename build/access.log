@@ -45,3 +45,4 @@
 ::1 - - [05/May/2024:09:55:49 +0000] "POST /post/ HTTP/1.1" 201 472 "-" "PostmanRuntime/7.37.3"
 ::1 - - [05/May/2024:09:55:58 +0000] "GET /post/postType?status=pending HTTP/1.1" 200 435 "-" "PostmanRuntime/7.37.3"
 ::1 - - [05/May/2024:09:57:37 +0000] "GET /post/postType?status=pending HTTP/1.1" 200 454 "-" "PostmanRuntime/7.37.3"
+::1 - - [05/May/2024:10:12:09 +0000] "GET /post/postType?status=approved HTTP/1.1" 200 909 "-" "PostmanRuntime/7.37.3"
