@@ -46,3 +46,6 @@
 ::1 - - [05/May/2024:09:55:58 +0000] "GET /post/postType?status=pending HTTP/1.1" 200 435 "-" "PostmanRuntime/7.37.3"
 ::1 - - [05/May/2024:09:57:37 +0000] "GET /post/postType?status=pending HTTP/1.1" 200 454 "-" "PostmanRuntime/7.37.3"
 ::1 - - [05/May/2024:10:12:09 +0000] "GET /post/postType?status=approved HTTP/1.1" 200 909 "-" "PostmanRuntime/7.37.3"
+::1 - - [05/May/2024:10:55:45 +0000] "PATCH /post/6635dea6d1aa8d00331e6712 HTTP/1.1" 401 25 "-" "PostmanRuntime/7.37.3"
+::1 - - [05/May/2024:10:56:07 +0000] "PATCH /post/6635dea6d1aa8d00331e6712 HTTP/1.1" 400 39 "-" "PostmanRuntime/7.37.3"
+::1 - - [05/May/2024:10:56:32 +0000] "PATCH /post/6635dea6d1aa8d00331e6712 HTTP/1.1" 200 461 "-" "PostmanRuntime/7.37.3"
