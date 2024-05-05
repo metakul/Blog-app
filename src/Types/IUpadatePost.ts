@@ -6,4 +6,5 @@ export interface IUpadatePost {
   image:object;
   author:string;
   cryptoSymbol:string
+  status?:string
 }

@@ -29,7 +29,7 @@ const addPost = async (postModelValidation: Ipost) => {
       author: postModelValidation.author,
       categories: postModelValidation.categories,
       cryptoSymbol:postModelValidation.cryptoSymbol,
-      status:"Pending"
+      status:"pending"
     });
     const savedPost = await post.save();
 
@@ -103,14 +103,10 @@ export const getAllPostsByStatus = async (
 ) => {
   try {
     const { status } = req.query;
-
-    console.log(status);
     
     if (!status || (status !== 'approved' && status !== 'pending')) {
       return res.status(400).json({ message: 'Invalid status provided' });
     }
-
-    console.log(status);
     
     const pageSize = parseInt(req.query.pagesize as string, 10) || 10;
     const page = parseInt(req.query.page as string, 10) || 1;
@@ -119,7 +115,7 @@ export const getAllPostsByStatus = async (
     const query = { status: status };
 
     const posts = await Post.find(query)
-      .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
+      .select("_id title description cryptoSymbol image author categories createdAt updatedAt status")
       .skip(skip)
       .limit(pageSize);
 

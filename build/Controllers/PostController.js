@@ -68,7 +68,7 @@ var addPost = function (postModelValidation) { return __awaiter(void 0, void 0, 
                     author: postModelValidation.author,
                     categories: postModelValidation.categories,
                     cryptoSymbol: postModelValidation.cryptoSymbol,
-                    status: "Pending"
+                    status: "pending"
                 });
                 return [4 /*yield*/, post.save()];
             case 1:
@@ -144,17 +144,15 @@ var getAllPostsByStatus = function (req, res, next) { return __awaiter(void 0, v
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 status_1 = req.query.status;
-                console.log(status_1);
                 if (!status_1 || (status_1 !== 'approved' && status_1 !== 'pending')) {
                     return [2 /*return*/, res.status(400).json({ message: 'Invalid status provided' })];
                 }
-                console.log(status_1);
                 pageSize = parseInt(req.query.pagesize, 10) || 10;
                 page = parseInt(req.query.page, 10) || 1;
                 skip = (page - 1) * pageSize;
                 query = { status: status_1 };
                 return [4 /*yield*/, Post_1.default.find(query)
-                        .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
+                        .select("_id title description cryptoSymbol image author categories createdAt updatedAt status")
                         .skip(skip)
                         .limit(pageSize)];
             case 1:

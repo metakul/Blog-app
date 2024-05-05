@@ -51,7 +51,7 @@ var PostSchema = new mongoose_1.Schema({
     },
     status: {
         type: String,
-        required: true,
+        required: false,
     },
 }, { timestamps: true });
 var Post = mongoose_1.default.model("Post", PostSchema);

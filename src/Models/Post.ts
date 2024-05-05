@@ -28,7 +28,7 @@ const PostSchema: Schema = new Schema(
     },
     status: {
       type: String,
-      required: true,
+      required: false,
     },
   },
 
