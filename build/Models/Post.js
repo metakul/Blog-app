@@ -49,6 +49,10 @@ var PostSchema = new mongoose_1.Schema({
         type: Array,
         required: true,
     },
+    status: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true });
 var Post = mongoose_1.default.model("Post", PostSchema);
 exports.default = Post;

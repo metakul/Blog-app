@@ -11,6 +11,7 @@ export const PostValidation = extendedJoi.object({
   author:extendedJoi.string().min(4).required(),
   categories: extendedJoi.array().required(),
   cryptoSymbol:extendedJoi.string().required(),
+  
 });
 
 export const PostIdValidation = extendedJoi.string().alphanum().required();
@@ -24,4 +25,8 @@ export const UpdatePostValidation = extendedJoi.object({
   image:extendedJoi.string().required(),
   categories: extendedJoi.array().required(),
   cryptoSymbol:extendedJoi.string().required(),
+});
+export const UpdatePostStatusValidation = extendedJoi.object({
+  postId: extendedJoi.string().alphanum().required(),
+  status:extendedJoi.string().required()  
 });

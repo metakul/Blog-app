@@ -8,8 +8,10 @@ router.use(cors());
 //create post
 router.post("/",authenticationMiddleware, PostController.CreatePost);
 
-//get all post
-router.get("/", PostController.getAllPost);
+
+
+// Route for fetching pending posts
+router.get('/postType', PostController.getAllPostsByStatus);
 
 //get one post
 router.get("/:postId", PostController.getPost);
@@ -18,6 +20,9 @@ router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 
 //update post
 router.patch("/:postId",authenticationMiddleware, PostController.updatePost);
+
+router.put('/:postId/updateStatus',authenticationMiddleware, PostController.updatePostStatus);
+
 
 //delete post
 router.delete("/:postId", PostController.detelePost);

@@ -34,13 +34,14 @@ var router = (0, express_1.Router)();
 router.use((0, cors_1.default)());
 //create post
 router.post("/", authentication_1.default, PostController.CreatePost);
-//get all post
-router.get("/", PostController.getAllPost);
+// Route for fetching pending posts
+router.get('/postType', PostController.getAllPostsByStatus);
 //get one post
 router.get("/:postId", PostController.getPost);
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
 router.patch("/:postId", authentication_1.default, PostController.updatePost);
+router.put('/:postId/updateStatus', authentication_1.default, PostController.updatePostStatus);
 //delete post
 router.delete("/:postId", PostController.detelePost);
 exports.default = router;

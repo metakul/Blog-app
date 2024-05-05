@@ -10,6 +10,12 @@ import {
 import { IUpadatePost } from "../Types/IUpadatePost";
 import {fetchCryptoData} from "../Axios/axiosCall"
 
+enum PostStatus {
+  APPROVED = 'approved',
+  PENDING = 'pending',
+  REJECTED = 'rejected'
+}
+
 /**
  * add new post
  * @param postModelValidation
@@ -22,7 +28,8 @@ const addPost = async (postModelValidation: Ipost) => {
       image: postModelValidation.image,
       author: postModelValidation.author,
       categories: postModelValidation.categories,
-      cryptoSymbol:postModelValidation.cryptoSymbol
+      cryptoSymbol:postModelValidation.cryptoSymbol,
+      status:"Pending"
     });
     const savedPost = await post.save();
 
@@ -84,49 +91,44 @@ export const CreatePost = async (
 };
 
 /**
- * Get all post
+ * Get all posts based on status
  * @param req
  * @param res
  * @param next
  */
-export const getAllPost = async (
+export const getAllPostsByStatus = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    // Extract page size from query parameter or use a default value
+    const { status } = req.query;
+
+    console.log(status);
+    
+    if (!status || (status !== 'approved' && status !== 'pending')) {
+      return res.status(400).json({ message: 'Invalid status provided' });
+    }
+
+    console.log(status);
+    
     const pageSize = parseInt(req.query.pagesize as string, 10) || 10;
-    
-    // Extract page number from query parameter or use a default value
     const page = parseInt(req.query.page as string, 10) || 1;
-    
-    // Calculate skip value based on page size and page number
     const skip = (page - 1) * pageSize;
 
-    // Fetch posts with pagination
-    const getPosts = await Post.find()
+    const query = { status: status };
+
+    const posts = await Post.find(query)
       .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
       .skip(skip)
       .limit(pageSize);
 
-    if (getPosts.length > 0) {
-      res.status(200).json(getPosts);
+    if (posts.length > 0) {
+      res.status(200).json(posts);
     } else {
-      return next(
-        res.status(404).json({
-          message: "Not Found",
-        })
-      );
+      return res.status(404).json({ message: 'No posts found with the specified status' });
     }
   } catch (error) {
-    if (isJoiError(error)) {
-      return next(
-        res.status(400).json({
-          message: "Invalid details provided.",
-        })
-      );
-    }
     next(error);
   }
 };
@@ -181,6 +183,42 @@ export const getPost = async (
   }
 };
 
+/**
+ * Update status of a post
+ * @param req
+ * @param res
+ * @param next
+ */
+export const updatePostStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { postId } = req.params;
+    const { status } = req.body;
+
+    // Validate if the provided status is a valid enum value
+    if (!Object.values(PostStatus).includes(status)) {
+      return res.status(400).json({ message: 'Invalid status provided' });
+    }
+
+    // Find the post by postId and update its status
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { status: status },
+      { new: true } // Return the updated document
+    );
+
+    if (updatedPost) {
+      res.status(200).json(updatedPost);
+    } else {
+      res.status(404).json({ message: 'Post not found' });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 /**
  * delete post

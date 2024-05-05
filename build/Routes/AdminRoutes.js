@@ -29,7 +29,7 @@ var PostController = __importStar(require("../Controllers/PostController"));
 //create post
 router.post("/", PostController.CreatePost);
 //get all post
-router.get("/", PostController.getAllPost);
+// router.get("/", PostController.getAllPost);
 //get one post
 router.get("/:postId", PostController.getPost);
 //update post

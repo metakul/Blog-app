@@ -6,7 +6,7 @@ import * as PostController from "../Controllers/PostController";
 router.post("/", PostController.CreatePost);
 
 //get all post
-router.get("/", PostController.getAllPost);
+// router.get("/", PostController.getAllPost);
 
 //get one post
 router.get("/:postId", PostController.getPost);

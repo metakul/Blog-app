@@ -26,6 +26,10 @@ const PostSchema: Schema = new Schema(
       type: Array,
       required: true,
     },
+    status: {
+      type: String,
+      required: true,
+    },
   },
 
   { timestamps: true }

@@ -6,7 +6,8 @@ export interface Ipost extends Document {
   image:object;
   author:string;
   categories:Array<any>;
-  cryptoSymbol:string
+  cryptoSymbol:string;
+  status:string
 }
 
 export function isJoiError(obj: any): obj is { isJoi: boolean } {
