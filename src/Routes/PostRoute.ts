@@ -21,7 +21,7 @@ router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
 router.patch("/:postId",authenticationMiddleware, PostController.updatePost);
 
-router.put('/updateStatus/:postId',authenticationMiddleware, PostController.updatePostStatus);
+router.patch('/updateStatus/:postId',authenticationMiddleware, PostController.updatePostStatus);
 
 
 //delete post

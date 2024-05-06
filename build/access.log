@@ -49,3 +49,6 @@
 ::1 - - [05/May/2024:10:55:45 +0000] "PATCH /post/6635dea6d1aa8d00331e6712 HTTP/1.1" 401 25 "-" "PostmanRuntime/7.37.3"
 ::1 - - [05/May/2024:10:56:07 +0000] "PATCH /post/6635dea6d1aa8d00331e6712 HTTP/1.1" 400 39 "-" "PostmanRuntime/7.37.3"
 ::1 - - [05/May/2024:10:56:32 +0000] "PATCH /post/6635dea6d1aa8d00331e6712 HTTP/1.1" 200 461 "-" "PostmanRuntime/7.37.3"
+::1 - - [06/May/2024:16:57:34 +0000] "PUT /post/663753af9b23ab0688062812/updateStatus HTTP/1.1" 404 18 "-" "PostmanRuntime/7.37.3"
+::1 - - [06/May/2024:16:57:42 +0000] "PUT /post/updateStatus/663753af9b23ab0688062812 HTTP/1.1" 401 25 "-" "PostmanRuntime/7.37.3"
+::1 - - [06/May/2024:16:59:04 +0000] "PUT /post/updateStatus/663753af9b23ab0688062812 HTTP/1.1" 404 28 "-" "PostmanRuntime/7.37.3"
