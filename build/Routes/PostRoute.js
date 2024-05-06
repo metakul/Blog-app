@@ -41,7 +41,7 @@ router.get("/:postId", PostController.getPost);
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
 router.patch("/:postId", authentication_1.default, PostController.updatePost);
-router.put('/:postId/updateStatus', authentication_1.default, PostController.updatePostStatus);
+router.put('/updateStatus/:postId', authentication_1.default, PostController.updatePostStatus);
 //delete post
-router.delete("/:postId", PostController.detelePost);
+router.delete("/:postId", authentication_1.default, PostController.detelePost);
 exports.default = router;

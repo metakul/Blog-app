@@ -21,10 +21,10 @@ router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
 router.patch("/:postId",authenticationMiddleware, PostController.updatePost);
 
-router.put('/:postId/updateStatus',authenticationMiddleware, PostController.updatePostStatus);
+router.put('/updateStatus/:postId',authenticationMiddleware, PostController.updatePostStatus);
 
 
 //delete post
-router.delete("/:postId", PostController.detelePost);
+router.delete("/:postId",authenticationMiddleware, PostController.detelePost);
 
 export default router;
