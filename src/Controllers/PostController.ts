@@ -154,7 +154,7 @@ export const getPost = async (
       );
     } else {
       const getPosts = await Post.findById(postIdValidation)
-        .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
+        .select("_id title description cryptoSymbol image author categories createdAt updatedAt status")
         .populate("user", "username name surname");
 
       if (getPosts) {
