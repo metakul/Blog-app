@@ -39,11 +39,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePost = exports.detelePost = exports.getPost = exports.getAllPost = exports.CreatePost = void 0;
+exports.getCryptoInfo = exports.updatePost = exports.detelePost = exports.updatePostStatus = exports.getPost = exports.getAllPostsByStatus = exports.CreatePost = void 0;
 var Post_1 = __importDefault(require("../Models/Post"));
 var PostValidation_1 = require("../Validations/PostValidation");
 var Ipost_1 = require("../Types/Ipost");
 var PostValidation_2 = require("../Validations/PostValidation");
+var axiosCall_1 = require("../Axios/axiosCall");
+var PostStatus;
+(function (PostStatus) {
+    PostStatus["APPROVED"] = "approved";
+    PostStatus["PENDING"] = "pending";
+    PostStatus["REJECTED"] = "rejected";
+})(PostStatus || (PostStatus = {}));
 /**
  * add new post
  * @param postModelValidation
@@ -60,6 +67,8 @@ var addPost = function (postModelValidation) { return __awaiter(void 0, void 0, 
                     image: postModelValidation.image,
                     author: postModelValidation.author,
                     categories: postModelValidation.categories,
+                    cryptoSymbol: postModelValidation.cryptoSymbol,
+                    status: "pending"
                 });
                 return [4 /*yield*/, post.save()];
             case 1:
@@ -85,7 +94,6 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 5, , 6]);
-                console.log("asd", req.body);
                 return [4 /*yield*/, PostValidation_1.PostValidation.validateAsync(req.body)];
             case 1:
                 postModelValidation = _a.sent();
@@ -103,7 +111,7 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 }
                 else {
                     return [2 /*return*/, next(res.status(400).json({
-                            message: "Invalid details provided.",
+                            message: "Error Adding Post",
                         }))];
                 }
                 _a.label = 4;
@@ -112,9 +120,10 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 error_2 = _a.sent();
                 if ((0, Ipost_1.isJoiError)(error_2)) {
                     return [2 /*return*/, next(res.status(400).json({
-                            message: "Invalid details provided.",
+                            message: error_2,
                         }))];
                 }
+                console.log(error_2);
                 next(error_2);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
@@ -123,45 +132,47 @@ var CreatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
 }); };
 exports.CreatePost = CreatePost;
 /**
- * Get all post
+ * Get all posts based on status
  * @param req
  * @param res
  * @param next
  */
-var getAllPost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var getPosts, error_3;
+var getAllPostsByStatus = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var status_1, pageSize, page, skip, query, posts, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Post_1.default.find()
-                        .select("_id title description image author categories createdAt updatedAt")
-                        .populate("user", "username name surname")];
+                status_1 = req.query.status;
+                if (!status_1 || (status_1 !== 'approved' && status_1 !== 'pending')) {
+                    return [2 /*return*/, res.status(400).json({ message: 'Invalid status provided' })];
+                }
+                pageSize = parseInt(req.query.pagesize, 10) || 10;
+                page = parseInt(req.query.page, 10) || 1;
+                skip = (page - 1) * pageSize;
+                query = { status: status_1 };
+                return [4 /*yield*/, Post_1.default.find(query)
+                        .select("_id title description cryptoSymbol image author categories createdAt updatedAt status")
+                        .skip(skip)
+                        .limit(pageSize)];
             case 1:
-                getPosts = _a.sent();
-                if (getPosts) {
-                    res.status(200).json(getPosts);
+                posts = _a.sent();
+                if (posts.length > 0) {
+                    res.status(200).json(posts);
                 }
                 else {
-                    return [2 /*return*/, next(res.status(404).json({
-                            message: "Not found.",
-                        }))];
+                    return [2 /*return*/, res.status(404).json({ message: 'No posts found with the specified status' })];
                 }
                 return [3 /*break*/, 3];
             case 2:
                 error_3 = _a.sent();
-                if ((0, Ipost_1.isJoiError)(error_3)) {
-                    return [2 /*return*/, next(res.status(400).json({
-                            message: "Invalid details provided.",
-                        }))];
-                }
                 next(error_3);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-exports.getAllPost = getAllPost;
+exports.getAllPostsByStatus = getAllPostsByStatus;
 /**
  * get one post
  * @param req
@@ -182,7 +193,7 @@ var getPost = function (req, res, next) { return __awaiter(void 0, void 0, void 
                         message: "Operation failed, invalid details provided.",
                     }))];
             case 2: return [4 /*yield*/, Post_1.default.findById(postIdValidation)
-                    .select("_id title description vote createdAt updatedAt")
+                    .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
                     .populate("user", "username name surname")];
             case 3:
                 getPosts = _a.sent();
@@ -211,13 +222,51 @@ var getPost = function (req, res, next) { return __awaiter(void 0, void 0, void 
 }); };
 exports.getPost = getPost;
 /**
+ * Update status of a post
+ * @param req
+ * @param res
+ * @param next
+ */
+var updatePostStatus = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var postId, status_2, updatedPost, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                postId = req.params.postId;
+                status_2 = req.body.status;
+                // Validate if the provided status is a valid enum value
+                if (!Object.values(PostStatus).includes(status_2)) {
+                    return [2 /*return*/, res.status(400).json({ message: 'Invalid status provided' })];
+                }
+                return [4 /*yield*/, Post_1.default.findByIdAndUpdate(postId, { status: status_2 }, { new: true } // Return the updated document
+                    )];
+            case 1:
+                updatedPost = _a.sent();
+                if (updatedPost) {
+                    res.status(200).json(updatedPost);
+                }
+                else {
+                    res.status(404).json({ message: 'Post not found' });
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _a.sent();
+                next(error_5);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.updatePostStatus = updatePostStatus;
+/**
  * delete post
  * @param req
  * @param res
  * @param next
  */
 var detelePost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var postIdValidation, deletePosts, error_5;
+    var postIdValidation, deletePosts, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -243,13 +292,13 @@ var detelePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 _a.label = 4;
             case 4: return [3 /*break*/, 6];
             case 5:
-                error_5 = _a.sent();
-                if ((0, Ipost_1.isJoiError)(error_5)) {
+                error_6 = _a.sent();
+                if ((0, Ipost_1.isJoiError)(error_6)) {
                     return [2 /*return*/, next(res.status(400).json({
                             message: "Invalid details provided.",
                         }))];
                 }
-                next(error_5);
+                next(error_6);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
@@ -263,7 +312,7 @@ exports.detelePost = detelePost;
  * @param next
  */
 var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var resUpdatePostValidation, updatedPosts, error_6;
+    var resUpdatePostValidation, updatedPosts, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -281,6 +330,10 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                     $set: {
                         title: resUpdatePostValidation.title,
                         description: resUpdatePostValidation.description,
+                        image: resUpdatePostValidation.image,
+                        author: resUpdatePostValidation.author,
+                        categories: resUpdatePostValidation.categories,
+                        cryptoSymbol: resUpdatePostValidation.cryptoSymbol
                     },
                 })];
             case 3:
@@ -296,16 +349,50 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 _a.label = 4;
             case 4: return [3 /*break*/, 6];
             case 5:
-                error_6 = _a.sent();
-                if ((0, Ipost_1.isJoiError)(error_6)) {
+                error_7 = _a.sent();
+                if ((0, Ipost_1.isJoiError)(error_7)) {
                     return [2 /*return*/, next(res.status(400).json({
                             message: "Invalid details provided.",
                         }))];
                 }
-                next(error_6);
+                next(error_7);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
     });
 }); };
 exports.updatePost = updatePost;
+var getCryptoInfo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var postIdValidation, error_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, PostValidation_1.cryptoIdValidation.validateAsync(req.params.cryptoId)];
+            case 1:
+                postIdValidation = _a.sent();
+                (0, axiosCall_1.fetchCryptoData)(req.params.cryptoId)
+                    .then(function (data) {
+                    res.status(200).json(data);
+                })
+                    .catch(function (error) {
+                    res.status(400).json({
+                        error: error,
+                        message: "Unable to Load Crypto Data.",
+                    });
+                });
+                return [3 /*break*/, 3];
+            case 2:
+                error_8 = _a.sent();
+                if ((0, Ipost_1.isJoiError)(error_8)) {
+                    return [2 /*return*/, next(res.status(400).json({
+                            message: "Unable to Load Crypto Data.",
+                        }))];
+                }
+                next(error_8);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getCryptoInfo = getCryptoInfo;

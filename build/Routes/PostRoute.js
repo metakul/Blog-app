@@ -22,18 +22,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var router = (0, express_1.Router)();
 var PostController = __importStar(require("../Controllers/PostController"));
+var cors_1 = __importDefault(require("cors"));
+var authentication_1 = __importDefault(require("../middleware/authentication"));
+var router = (0, express_1.Router)();
+router.use((0, cors_1.default)());
 //create post
-router.post("/", PostController.CreatePost);
-//get all post
-router.get("/", PostController.getAllPost);
+router.post("/", authentication_1.default, PostController.CreatePost);
+// Route for fetching pending posts
+router.get('/postType', PostController.getAllPostsByStatus);
 //get one post
 router.get("/:postId", PostController.getPost);
+router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 //update post
-router.patch("/", PostController.updatePost);
+router.patch("/:postId", authentication_1.default, PostController.updatePost);
+router.put('/updateStatus/:postId', authentication_1.default, PostController.updatePostStatus);
 //delete post
-router.delete("/:postId", PostController.detelePost);
+router.delete("/:postId", authentication_1.default, PostController.detelePost);
 exports.default = router;

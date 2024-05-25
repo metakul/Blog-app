@@ -34,16 +34,24 @@ var PostSchema = new mongoose_1.Schema({
         required: true,
     },
     image: {
-        type: Object,
+        type: String,
         required: true,
     },
     author: {
         type: String,
         required: true,
     },
+    cryptoSymbol: {
+        type: String,
+        required: true,
+    },
     categories: {
         type: Array,
         required: true,
+    },
+    status: {
+        type: String,
+        required: false,
     },
 }, { timestamps: true });
 var Post = mongoose_1.default.model("Post", PostSchema);

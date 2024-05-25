@@ -22,10 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var router = (0, express_1.Router)();
 var UserController = __importStar(require("../Controllers/UserController"));
+var cors_1 = __importDefault(require("cors"));
+var router = (0, express_1.Router)();
+router.use((0, cors_1.default)());
 //create user
 router.post("/", UserController.createUser);
 //get user

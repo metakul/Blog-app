@@ -11,16 +11,24 @@ const PostSchema: Schema = new Schema(
       required: true,
     },
     image: {
-      type: Object,
+      type: String,
       required: true,
     },
     author: {
       type: String,
       required: true,
     },
+    cryptoSymbol: {
+      type: String,
+      required: true,
+    },
     categories: {
       type: Array,
       required: true,
+    },
+    status: {
+      type: String,
+      required: false,
     },
   },
 
