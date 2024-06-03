@@ -57,9 +57,9 @@ eth_signer/
 ├── dist/              # Compiled TypeScript code /n
 ├── src/               # Source files /n
 │   ├── dataTypes/
-│   │   ├── interfaces.ts
-│   ├── utils/
-│   │   ├── keyGeneration.ts
+│   │   ├── interfaces.ts /n
+│   ├── utils/ /n
+│   │   ├── keyGeneration.ts ()
 │   │   ├── signing.ts
 │   │   └── verification.ts
 │   └── index.ts       # Main application entry point
