@@ -1,41 +1,72 @@
-# CRUD Rest API Nodejs with Typescript
+# eth_signer
 
-Sample Nodejs API with Typescript and Mongodb
+This project demonstrates how to sign and verify data using ECDSA (Elliptic Curve Digital Signature Algorithm) in Node.js with TypeScript.
 
-## Script:
+## Table of Contents
 
-- npm install
-- npm start
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Development](#development)
+  - [Production](#production)
+  - [Testing](#testing)
+- [Project Structure](#project-structure)
 
-## Nodejs Typescript project
+## Prerequisites
 
-Follow these steps to create a new nodejs project with Typescript
+Before you begin, ensure you have the following installed:
 
-- npm init
-- tsc --init
-- configure tsconfig.json file:
-  - "outDir": "./build", ( Redirect output structure to the directory. )
-  - "rootDir": "./src", ( Specify the root directory of input files. Use to control the output directory structure with outDir.)
+- Node.js (version 14.x or later)
+- npm (version 6.x or later)
 
-## Mongodb
+## Installation
 
-Mongodb options you can use a local or a remote database:
+Install dependencies using npm:
 
-- Local
-- [Mongodb Atals](https://account.mongodb.com/account/login)
+```bash
+npm install
+```
 
-## Endponts:
+## Usage
+## Development
 
-### User:
+To run the project in development mode with automatic rebuilds on file changes, use:
+```bash
+npm run dev
+```
 
-- create user : localhost:3000/user/
-- get user : localhost:3000/user/userId
-- update user : localhost:3000/user/
+## Production
 
-### Posts:
+To build the project and run the compiled JavaScript code, use:
 
-- create post : localhost:3000/post/
-- get all post : localhost:3000/post/
-- get post : localhost:3000/post/postId
-- delete post : localhost:3000/post/postId
-- update post : localhost:3000/post/
+```bash
+npm start
+```
+
+## Testing
+
+To run tests, first build the project, then run the tests:
+
+```bash
+npm test
+```
+
+## Project Structure
+
+eth_signer/
+├── dist/              # Compiled TypeScript code
+├── src/               # Source files
+│   ├── dataTypes/
+│   │   ├── interfaces.ts
+│   ├── utils/
+│   │   ├── keyGeneration.ts
+│   │   ├── signing.ts
+│   │   └── verification.ts
+│   └── index.ts       # Main application entry point
+├── tests/             # Unit tests
+│   └── signAndVerify.test.ts
+├── .gitignore
+├── package.json
+├── README.md          # Project documentation
+└── tsconfig.json      # TypeScript configuration
+ 
