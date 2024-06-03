@@ -54,8 +54,8 @@ npm test
 ## Project Structure
 
 eth_signer/
-├── dist/              # Compiled TypeScript code
-├── src/               # Source files
+├── dist/              # Compiled TypeScript code /n
+├── src/               # Source files /n
 │   ├── dataTypes/
 │   │   ├── interfaces.ts
 │   ├── utils/
