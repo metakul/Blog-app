@@ -52,11 +52,11 @@ npm test
 ```
 
 ## Project Structure
-
+```
 eth_signer/
-├── dist/              # Compiled TypeScript code /n
+├── dist/              # Compiled TypeScript code 
 ├── src/               # Source files /n
-│   ├── dataTypes/
+│   ├── dataTypes
 │   │   ├── interfaces.ts /n
 │   ├── utils/ /n
 │   │   ├── keyGeneration.ts ()
@@ -69,4 +69,4 @@ eth_signer/
 ├── package.json
 ├── README.md          # Project documentation
 └── tsconfig.json      # TypeScript configuration
- 
+ ```
