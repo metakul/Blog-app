@@ -376,6 +376,8 @@ var getWhitelist = function (req, res, next) { return __awaiter(void 0, void 0, 
             case 0:
                 _a.trys.push([0, 5, , 6]);
                 address = req.body.address;
+                console.log(address);
+                console.log(JSON.stringify(req.body));
                 if (!address) {
                     return [2 /*return*/, next(res.status(400).json({
                             message: "Please Send address.",
