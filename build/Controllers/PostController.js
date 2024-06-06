@@ -39,12 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCryptoInfo = exports.updatePost = exports.detelePost = exports.updatePostStatus = exports.getPost = exports.getAllPostsByStatus = exports.CreatePost = void 0;
+exports.getCryptoInfo = exports.getWhitelist = exports.updatePost = exports.detelePost = exports.updatePostStatus = exports.getPost = exports.getAllPostsByStatus = exports.CreatePost = void 0;
 var Post_1 = __importDefault(require("../Models/Post"));
 var PostValidation_1 = require("../Validations/PostValidation");
 var Ipost_1 = require("../Types/Ipost");
 var PostValidation_2 = require("../Validations/PostValidation");
 var axiosCall_1 = require("../Axios/axiosCall");
+var Whitelist_1 = __importDefault(require("../Models/Whitelist"));
 var PostStatus;
 (function (PostStatus) {
     PostStatus["APPROVED"] = "approved";
@@ -193,7 +194,7 @@ var getPost = function (req, res, next) { return __awaiter(void 0, void 0, void 
                         message: "Operation failed, invalid details provided.",
                     }))];
             case 2: return [4 /*yield*/, Post_1.default.findById(postIdValidation)
-                    .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
+                    .select("_id title description cryptoSymbol image author categories createdAt updatedAt status")
                     .populate("user", "username name surname")];
             case 3:
                 getPosts = _a.sent();
@@ -362,8 +363,55 @@ var updatePost = function (req, res, next) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.updatePost = updatePost;
+/**
+ * Update post
+ * @param req
+ * @param res
+ * @param next
+ */
+var getWhitelist = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var address, whiteList, savedAddress, error_8, error_9;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 5, , 6]);
+                address = req.body.address;
+                if (!address) {
+                    return [2 /*return*/, next(res.status(400).json({
+                            message: "Please Send address.",
+                        }))];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                whiteList = new Whitelist_1.default({
+                    address: address
+                });
+                return [4 /*yield*/, whiteList.save()];
+            case 2:
+                savedAddress = _a.sent();
+                res.status(200).json(savedAddress);
+                return [3 /*break*/, 4];
+            case 3:
+                error_8 = _a.sent();
+                throw error_8;
+            case 4: return [3 /*break*/, 6];
+            case 5:
+                error_9 = _a.sent();
+                if ((0, Ipost_1.isJoiError)(error_9)) {
+                    return [2 /*return*/, next(res.status(400).json({
+                            message: "Invalid details provided.",
+                        }))];
+                }
+                next(error_9);
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getWhitelist = getWhitelist;
 var getCryptoInfo = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var postIdValidation, error_8;
+    var postIdValidation, error_10;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -383,13 +431,13 @@ var getCryptoInfo = function (req, res, next) { return __awaiter(void 0, void 0,
                 });
                 return [3 /*break*/, 3];
             case 2:
-                error_8 = _a.sent();
-                if ((0, Ipost_1.isJoiError)(error_8)) {
+                error_10 = _a.sent();
+                if ((0, Ipost_1.isJoiError)(error_10)) {
                     return [2 /*return*/, next(res.status(400).json({
                             message: "Unable to Load Crypto Data.",
                         }))];
                 }
-                next(error_8);
+                next(error_10);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

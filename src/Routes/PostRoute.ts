@@ -27,4 +27,6 @@ router.patch('/updateStatus/:postId',authenticationMiddleware, PostController.up
 //delete post
 router.delete("/:postId",authenticationMiddleware, PostController.detelePost);
 
+router.post("/getWhitelist", PostController.getWhitelist);
+
 export default router;
