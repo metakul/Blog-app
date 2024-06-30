@@ -28,20 +28,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var PostController = __importStar(require("../Controllers/PostController"));
+var ImageController = __importStar(require("../Controllers/ImageController"));
 var cors_1 = __importDefault(require("cors"));
 var authentication_1 = __importDefault(require("../middleware/authentication"));
 var router = (0, express_1.Router)();
 router.use((0, cors_1.default)());
-//create post
+// Create post
 router.post("/", authentication_1.default, PostController.CreatePost);
 // Route for fetching pending posts
 router.get('/postType', PostController.getAllPostsByStatus);
-//get one post
+// Get one post
 router.get("/:postId", PostController.getPost);
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
-//update post
+// Update post
 router.patch("/:postId", authentication_1.default, PostController.updatePost);
-router.put('/updateStatus/:postId', authentication_1.default, PostController.updatePostStatus);
-//delete post
+router.patch('/updateStatus/:postId', authentication_1.default, PostController.updatePostStatus);
+// Delete post
 router.delete("/:postId", authentication_1.default, PostController.detelePost);
+// Image upload route
+router.post("/uploadImage", ImageController.uploadImage);
 exports.default = router;

@@ -193,7 +193,7 @@ var getPost = function (req, res, next) { return __awaiter(void 0, void 0, void 
                         message: "Operation failed, invalid details provided.",
                     }))];
             case 2: return [4 /*yield*/, Post_1.default.findById(postIdValidation)
-                    .select("_id title description cryptoSymbol image author categories createdAt updatedAt")
+                    .select("_id title description cryptoSymbol image author categories createdAt updatedAt status")
                     .populate("user", "username name surname")];
             case 3:
                 getPosts = _a.sent();

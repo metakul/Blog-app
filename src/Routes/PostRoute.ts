@@ -1,30 +1,32 @@
 import { Router } from "express";
 import * as PostController from "../Controllers/PostController";
+import * as ImageController from "../Controllers/ImageController";
 import cors from "cors";
 import authenticationMiddleware from "../middleware/authentication";
 
 const router: Router = Router();
 router.use(cors());
-//create post
-router.post("/",authenticationMiddleware, PostController.CreatePost);
 
-
+// Create post
+router.post("/", authenticationMiddleware, PostController.CreatePost);
 
 // Route for fetching pending posts
 router.get('/postType', PostController.getAllPostsByStatus);
 
-//get one post
+// Get one post
 router.get("/:postId", PostController.getPost);
 
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 
-//update post
-router.patch("/:postId",authenticationMiddleware, PostController.updatePost);
+// Update post
+router.patch("/:postId", authenticationMiddleware, PostController.updatePost);
 
-router.patch('/updateStatus/:postId',authenticationMiddleware, PostController.updatePostStatus);
+router.patch('/updateStatus/:postId', authenticationMiddleware, PostController.updatePostStatus);
 
+// Delete post
+router.delete("/:postId", authenticationMiddleware, PostController.detelePost);
 
-//delete post
-router.delete("/:postId",authenticationMiddleware, PostController.detelePost);
+// Image upload route
+router.post("/uploadImage", ImageController.uploadImage);
 
 export default router;
