@@ -42,9 +42,7 @@ router.get("/:postId", PostController.getPost);
 router.get("/cryptoInfo/:cryptoId", PostController.getCryptoInfo);
 // Update post
 router.patch("/:postId", authentication_1.default, PostController.updatePost);
-router.patch('/updateStatus/:postId', authentication_1.default, PostController.updatePostStatus);
-// Delete post
+router.put('/updateStatus/:postId', authentication_1.default, PostController.updatePostStatus);
+//delete post
 router.delete("/:postId", authentication_1.default, PostController.detelePost);
-// Image upload route
-router.post("/uploadImage", ImageController.uploadImage);
 exports.default = router;

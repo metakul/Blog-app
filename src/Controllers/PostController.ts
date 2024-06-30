@@ -9,6 +9,7 @@ import {
 } from "../Validations/PostValidation";
 import { IUpadatePost } from "../Types/IUpadatePost";
 import {fetchCryptoData} from "../Axios/axiosCall"
+import Whitelist from "../Models/Whitelist";
 
 enum PostStatus {
   APPROVED = 'approved',
@@ -312,6 +313,48 @@ export const updatePost = async (
         );
       }
     }
+  } catch (error) {
+    if (isJoiError(error)) {
+      return next(
+        res.status(400).json({
+          message: "Invalid details provided.",
+        })
+      );
+    }
+    next(error);
+  }
+};
+/**
+ * Update post
+ * @param req
+ * @param res
+ * @param next
+ */
+export const getWhitelist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {address}=req.body
+    if (!address) {
+      return next(
+        res.status(400).json({
+          message: "Please Send address.",
+        })
+      );
+    }
+      try {
+        const whiteList = new Whitelist({
+          address:address
+        });
+        const savedAddress = await whiteList.save();
+        res.status(200).json(savedAddress);
+
+      } catch (error) {
+        throw error
+      }
+   
   } catch (error) {
     if (isJoiError(error)) {
       return next(

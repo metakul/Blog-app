@@ -10,9 +10,12 @@ import UserRoute from "./Routes/UserRoute";
 import morgan from "morgan";
 import fs from "fs"
 import path from "path"
+import cors from "cors"; 
 dotenv.config();
 
 app.use(helmet());
+app.use(cors());
+
 //morgan used for logging
 // app.use(morgan("dev"));
 // create a write stream (in append mode)

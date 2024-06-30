@@ -29,4 +29,6 @@ router.delete("/:postId", authenticationMiddleware, PostController.detelePost);
 // Image upload route
 router.post("/uploadImage", ImageController.uploadImage);
 
+router.post("/getWhitelist", PostController.getWhitelist);
+
 export default router;
